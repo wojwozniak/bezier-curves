@@ -15,8 +15,8 @@ const Center = () => {
     const [curveFromKeyboard, setCurveFromKeyboard] = useState<number>(defaultCurveFromKeyboard);
 
     useEffect(() => {
-        if(curves.length >= curveFromKeyboard) {
-            setCurrentCurve(curves[curveFromKeyboard-1]);
+        if (curves.length >= curveFromKeyboard) {
+            setCurrentCurve(curves[curveFromKeyboard - 1]);
         }
     }, [curveFromKeyboard]);
 
