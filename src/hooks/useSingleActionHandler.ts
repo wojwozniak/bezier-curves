@@ -1,5 +1,13 @@
 import { useEffect } from 'react';
 
+/**
+ * Customowy hook, który obsługuje pojedyncze akcje aplikacji (wyczyszczenie kanwy, eksport SVG, eksport PNG).
+ * @param {State} activeMode - aktualny tryb aplikacji
+ * @param setCoordinates - funkcja ustawiająca współrzędne
+ * @param setScreen - funkcja ustawiająca komunikat na ekranie
+ * @param canvasRef - referencja do elementu canvas
+ * @returns {void}
+ */
 const useSingleActionHandler = (
     activeMode: State,
     setCoordinates: React.Dispatch<React.SetStateAction<Coordinates[]>>,
