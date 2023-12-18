@@ -1,5 +1,6 @@
 import { RiAddLine, RiEditLine, RiDeleteBinLine, RiBrushLine, RiEyeLine, RiFileDownloadLine } from 'react-icons/ri';
 import { State } from '../types/State';
+import Button from '@/components/ui/button';
 
 const ButtonBar = (
   { updateActiveMode }: { updateActiveMode: React.Dispatch<React.SetStateAction<State>> }
@@ -71,7 +72,7 @@ const ButtonBar = (
 
   return (
     <div className="button-row">
-      
+      <Button buttonData={buttonData} />
       {buttonData.map((button, index) => {
         return (
           <button key={index} className={`button ${button.className}`} onClick={button.action}>
