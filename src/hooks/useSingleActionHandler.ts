@@ -13,7 +13,7 @@ const useSingleActionHandler = (
     setCoordinates: React.Dispatch<React.SetStateAction<Coordinates[]>>,
     setScreen: React.Dispatch<React.SetStateAction<string>>,
     canvasRef : React.RefObject<HTMLCanvasElement>
-) => {
+):void => {
     useEffect(() => {
         if(canvasRef.current === null) {
             return;
