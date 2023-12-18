@@ -9,7 +9,7 @@ export const findClosestPointIndex = (
     coords: Coordinates[],
     x: number,
     y: number
-) : number => {
+): number => {
     let minDistance = Infinity;
     let closestIndex = -1;
 
