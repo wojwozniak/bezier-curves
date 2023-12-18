@@ -25,7 +25,6 @@ const Center = () => {
         <>
             <div className="screen">
                 <Editor activeMode={activeMode}
-                    curves={curves}
                     currentCurve={currentCurve}
                     updateActiveMode={updateActiveMode}
                     setCurveFromKeyboard={setCurveFromKeyboard} />
