@@ -1,3 +1,5 @@
+import { Coordinates } from '../types/Coordinates';
+
 /**
  * Funkcja rysująca punkty na kanwie
  * @param {Coordinates[]} coordinates - współrzędne

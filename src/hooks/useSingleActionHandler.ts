@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { State } from '../types/State';
+import { Coordinates } from '../types/Coordinates';
 
 /**
  * Customowy hook, który obsługuje pojedyncze akcje aplikacji (wyczyszczenie kanwy, eksport SVG, eksport PNG).

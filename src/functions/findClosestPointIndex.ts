@@ -1,3 +1,5 @@
+import { Coordinates } from "../types/Coordinates";
+
 /**
  * Funkcja szuka najbliższego punktu do podanych współrzędnych i zwraca jego indeks w tablicy
  * @param {Coordinates[]} coords - współrzędne 

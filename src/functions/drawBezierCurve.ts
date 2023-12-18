@@ -1,3 +1,5 @@
+import { Coordinates } from "../types/Coordinates";
+
 /**
  * Funkcja rysująca krzywą beziera
  * @param {Coordinates[]} coordinates - współrzędne 
