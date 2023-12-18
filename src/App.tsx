@@ -3,7 +3,7 @@ import Header from './staticComponents/Header';
 import Footer from './staticComponents/Footer';
 import Center from './components/Center';
 
-const App = () => {
+const App:React.FC = () => {
 
   return (
     <div className="app-container">
