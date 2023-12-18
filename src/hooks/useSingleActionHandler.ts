@@ -12,10 +12,10 @@ const useSingleActionHandler = (
     activeMode: State,
     setCoordinates: React.Dispatch<React.SetStateAction<Coordinates[]>>,
     setScreen: React.Dispatch<React.SetStateAction<string>>,
-    canvasRef : React.RefObject<HTMLCanvasElement>
-):void => {
+    canvasRef: React.RefObject<HTMLCanvasElement>
+): void => {
     useEffect(() => {
-        if(canvasRef.current === null) {
+        if (canvasRef.current === null) {
             return;
         }
         if (activeMode.label === "Wyczyść") {
