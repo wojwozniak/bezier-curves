@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Editor from './Editor'
 import ButtonBar from './ButtonBar'
 import CurveList from './CurveList';
+import { State } from '../types/State';
 
 const defaultMode: State = { label: "Dodaj punkt", dispatchTime: Date.now() };
 const defaultCurves: string[] = ["Główna krzywa", "Krzywa 2"];
