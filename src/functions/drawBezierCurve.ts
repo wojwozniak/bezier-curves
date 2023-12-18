@@ -6,10 +6,10 @@
  * @returns {void} 
  */
 export const drawBezierCurve = (
-    coordinates : Coordinates[],
-    context : CanvasRenderingContext2D,
-    isMain : boolean
-):void => {
+    coordinates: Coordinates[],
+    context: CanvasRenderingContext2D,
+    isMain: boolean
+): void => {
     if (coordinates.length > 1) {
         context.beginPath();
         context.moveTo(coordinates[0].x, coordinates[0].y);
