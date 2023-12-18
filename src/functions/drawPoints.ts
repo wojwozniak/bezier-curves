@@ -7,7 +7,7 @@
 export const drawPoints = (
     coordinates: Coordinates[],
     context: CanvasRenderingContext2D
-) => {
+): void => {
     coordinates.forEach(({ x, y }, index) => {
         context.beginPath();
         context.arc(x, y, 5, 0, 2 * Math.PI);
