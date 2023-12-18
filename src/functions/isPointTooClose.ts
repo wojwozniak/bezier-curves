@@ -8,10 +8,10 @@ import { Coordinates } from "../types/Coordinates";
  * @returns {boolean}
  */
 export const isPointTooClose = (
-    coords : Coordinates[],
-    x : number,
-    y : number
-) : boolean => {
+    coords: Coordinates[],
+    x: number,
+    y: number
+): boolean => {
     return coords.some((point) => {
         const distance = Math.sqrt((point.x - x) ** 2 + (point.y - y) ** 2);
         return distance < 2;
