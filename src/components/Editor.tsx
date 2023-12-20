@@ -106,7 +106,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     }
 
     // ### Dodawanie i edytowanie punktów ###
-    const handleCanvasClick = (event: { clientX: number; clientY: number; }) => {
+    const handleCanvasClick = (event: MouseEvent) => {
       if (activeMode.label === "Podgląd włączony") {
         setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
         return;
@@ -137,7 +137,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     }
 
     // ### Przesuwanie punktów ###
-    const handleCanvasMove = (event: { clientX: number; clientY: number; }) => {
+    const handleCanvasMove = (event: MouseEvent) => {
       if (selectedPoint !== null) {
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
