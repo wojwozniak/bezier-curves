@@ -5,7 +5,7 @@ import { State } from '../types/State';
 
 const defaultMode: State = { label: "Dodaj punkt", dispatchTime: Date.now() };
 const defaultCurves: string[] = ["Warstwa 1", "Warstwa 2", "Warstwa 3", "Warstwa 4", "Warstwa 5", "Warstwa 6", "Warstwa 7", "Warstwa 8", "Warstwa 9"];
-const defaultCurve: string = "Główna krzywa";
+const defaultCurve: string = "Warstwa 1";
 const defaultCurveFromKeyboard: number = 1;
 
 const Center = () => {

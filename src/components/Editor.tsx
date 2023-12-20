@@ -8,6 +8,7 @@ import { State } from '../types/State';
 import { Coordinates } from '../types/Coordinates';
 import { Curve } from '../types/Curve';
 import ButtonBar from './ButtonBar';
+import Popup from './Popup';
 
 interface EditorProps {
   activeMode: State;
@@ -21,7 +22,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
   const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
   const [curveStore, setCurveStore] = useState<Curve[]>([{ label: currentCurve, coordinates: coordinates }]);
   const [oldCurve, setOldCurve] = useState<string>(currentCurve);
-  const [screen, setScreen] = useState<string>("Brak ostatniej akcji.");
+  const [screen, setScreen] = useState<string>("Rozpocznij edycję - dodaj punkt na kanwę!");
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
   const [pressedKey, setPressedKey] = useState<string | null>(null);
 
@@ -213,7 +214,8 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     <div className="flex items-center justify-center flex-col">
       <canvas ref={canvasRef} className="border-2 border-gray-300 bg-white mb-4" />
       <ButtonBar updateActiveMode={updateActiveMode} />
-      <p className='mt-5'>{screen}</p>
+      {screen === "Rozpocznij edycję - dodaj punkt na kanwę!" ? <p className='mt-5'>{screen}</p> : null}
+      <Popup screen={screen} />
     </div>
   );
 };
