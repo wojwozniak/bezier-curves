@@ -10,7 +10,6 @@ import { Curve } from '../types/Curve';
 
 interface EditorProps {
   activeMode: State;
-  updateActiveMode: React.Dispatch<React.SetStateAction<State>>;
   currentCurve: string;
   setCurveFromKeyboard: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -106,7 +105,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
 
     // ### Dodawanie i edytowanie punktów ###
     const handleCanvasClick = (event: { clientX: number; clientY: number; }) => {
-      if (activeMode.label === "Podgląd") {
+      if (activeMode.label === "Podgląd włączony") {
         setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
         return;
       }
@@ -162,6 +161,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
 
   }, [coordinates, activeMode, selectedPoint, currentCurve]);
 
+  // ### Obsługa klawiatury - zmiana warstw ###
   useEffect(() => {
     const handleKeyDown = (event: { key: SetStateAction<string | null>; }) => {
       setPressedKey(event.key);
@@ -211,7 +211,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
     <div className="flex items-center justify-center flex-col">
       <canvas ref={canvasRef} className="border-2 border-gray-300 bg-white mb-4" />
       <p className='my-2'>Ostatnia akcja: {screen}</p>
-      <p className='my-2'>Aktywny tryb: {activeMode.label}</p>
+      <p className='my-2'>{activeMode.label}</p>
     </div>
   );
 };
