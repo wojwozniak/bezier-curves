@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState, SetStateAction } from 'react';
 import useSingleActionHandler from '../hooks/useSingleActionHandler';
-import { isPointTooClose } from './../functions/isPointTooClose';
 import { findClosestPointIndex } from './../functions/findClosestPointIndex';
 import { initCanvas } from './../functions/initCanvas';
 import { drawPoints } from './../functions/drawPoints';
@@ -16,7 +15,7 @@ interface EditorProps {
   setCurveFromKeyboard: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboard }: EditorProps) => {
+const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps) => {
   const canvasRef = useRef(null);
   const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
   const [curveStore, setCurveStore] = useState<Curve[]>([{ label: currentCurve, coordinates: coordinates }]);
@@ -26,20 +25,19 @@ const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboa
   const [pressedKey, setPressedKey] = useState<string | null>(null);
 
   useEffect(() => {
+    // ### Inicjalizacja canvasa ###
     const canvas = canvasRef.current! as HTMLCanvasElement;
     const context = canvas.getContext('2d')!;
     initCanvas(canvas, context);
 
-    if (oldCurve !== currentCurve) {
+    // ### Aktualizacja - zmiana warstwy ###
+    const handleLayerChange = () => {
       setScreen("Zmiana warstwy z " + oldCurve + " na " + currentCurve + ".");
-      //console.log(curveStore);
-      //updateActiveMode({ label: "Dodaj punkt", dispatchTime: Date.now() });
       setSelectedPoint(null);
       const tempCurrentStore = curveStore;
 
       const curve = curveStore.find(curve => curve.label === oldCurve);
       if (curve) {
-        //console.log("Znaleziono krzywą w store")
         curve.coordinates = coordinates;
         setCurveStore(prevCurveStore => {
           const newCurveStore = [...prevCurveStore];
@@ -47,12 +45,9 @@ const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboa
           return newCurveStore;
         });
       } else {
-        //console.log("Nie znaleziono krzywej w store")
         setCurveStore(prevCurveStore => [...prevCurveStore, { label: oldCurve, coordinates: coordinates }]);
-        //console.log("Zapisano krzywą ze starą nazwą w store")
       }
 
-      // Szukamy nowych koordynatów - jeśli nie znajdziemy to dajemy nowe
       const newCoordinates = tempCurrentStore.find(curve => curve.label === currentCurve);
       if (newCoordinates) {
         setCoordinates(newCoordinates.coordinates);
@@ -61,69 +56,83 @@ const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboa
       }
       setOldCurve(currentCurve);
     }
+    if (oldCurve !== currentCurve) handleLayerChange();
 
-    if (!(activeMode.label === "Podgląd"
-      || activeMode.label === "Eksportuj PNG"
-      || activeMode.label === "Eksportuj SVG"
-    )) drawPoints(coordinates, context);
-    drawBezierCurve(coordinates, context, true);
+    // ### Rysowanie krzywej ###
+    const draw = () => {
+      if (!(activeMode.label === "Podgląd"
+        || activeMode.label === "Eksportuj PNG"
+        || activeMode.label === "Eksportuj SVG"
+      )) drawPoints(coordinates, context);
+      drawBezierCurve(coordinates, context, true);
 
-    let backgroundArgument = activeMode.label === "Podgląd" || activeMode.label === "Eksportuj PNG" || activeMode.label === "Eksportuj SVG" ? true : false;
-    const backgroundCurves = curveStore.filter(curve => curve.label !== currentCurve);
-    backgroundCurves.forEach(curve => {
-      drawBezierCurve(curve.coordinates, context, backgroundArgument);
-    });
+      let backgroundArgument = activeMode.label === "Podgląd" || activeMode.label === "Eksportuj PNG" || activeMode.label === "Eksportuj SVG" ? true : false;
+      const backgroundCurves = curveStore.filter(curve => curve.label !== currentCurve);
+      backgroundCurves.forEach(curve => {
+        drawBezierCurve(curve.coordinates, context, backgroundArgument);
+      });
+    }
+    draw();
 
+    // ### Usuwanie punktu ###
+    const handleRightClick = (event: MouseEvent) => {
+      event.preventDefault();
+      if (activeMode.label === "Podgląd") {
+        setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
+        return;
+      }
+      if(selectedPoint !== null) {
+        setScreen("Zakończ przesuwanie punktu zanim spróbujesz usunąć.");
+        return;
+      }
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const indexToRemove = findClosestPointIndex(coordinates, x, y);
+      if (indexToRemove !== -1) {
+        setCoordinates((prevCoordinates) => {
+          const newCoordinates = [...prevCoordinates];
+          newCoordinates.splice(indexToRemove, 1);
+          return newCoordinates;
+        });
+        setScreen("Usunięto punkt. Liczba punktów: " + (coordinates.length - 1));
+      } else {
+        setScreen("Nie kliknięto żadnego punktu. Spróbuj ponownie.");
+      }
+    }
+
+    // ### Dodawanie i edytowanie punktów ###
     const handleCanvasClick = (event: { clientX: number; clientY: number; }) => {
+      if (activeMode.label === "Podgląd") {
+        setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
+        return;
+      }
+
+      if (selectedPoint) {
+        setSelectedPoint(null);
+        setScreen("Zakończono przesuwanie punktu.");
+        return;
+      }
+
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
-      if (activeMode.label === "Dodaj punkt") {
-        setCoordinates((prevCoordinates) => {
-          if (!isPointTooClose(prevCoordinates, x, y)) {
-            return [...prevCoordinates, { x, y }];
-          }
-          return prevCoordinates;
-        });
-        setScreen("Dodano punkt. Liczba punktów: " + (coordinates.length + 1));
-      } else if (activeMode.label === "Usuń punkt") {
-        const indexToRemove = findClosestPointIndex(coordinates, x, y);
-        if (indexToRemove !== -1) {
-          setCoordinates((prevCoordinates) => {
-            const newCoordinates = [...prevCoordinates];
-            newCoordinates.splice(indexToRemove, 1);
-            return newCoordinates;
-          });
-          setScreen("Usunięto punkt. Liczba punktów: " + (coordinates.length - 1));
-        } else {
-          setScreen("Nie kliknięto żadnego punktu. Spróbuj ponownie.");
-        }
-      } else if (activeMode.label === "Podgląd") {
-        setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.")
-      } else if (
-        activeMode.label === "Wyczyść"
-        || activeMode.label === "Eksportuj PNG"
-        || activeMode.label === "Eksportuj SVG") {
-
-        setScreen("Kliknięcie bez włączonego trybu - ustaw tryb by wykonać akcję.")
-      } else if (activeMode.label === "Edytuj punkt") {
+      const findClosest = findClosestPointIndex(coordinates, x, y);
+      if (findClosest !== -1) {
         if (selectedPoint === null) {
-          const indexToMove = findClosestPointIndex(coordinates, x, y);
-          if (indexToMove !== -1) {
-            setSelectedPoint(indexToMove);
-            setScreen("Wybrano punkt do przesunięcia.");
-          } else {
-            setScreen("Nie kliknięto żadnego punktu. Spróbuj ponownie.");
-          }
-        } else {
-          setSelectedPoint(null);
-          setScreen("Zakończono przesuwanie punktu.");
+          setSelectedPoint(findClosest);
+          setScreen("Wybrano punkt do przesunięcia.");
         }
-
+      } else {
+        setScreen("Dodano punkt. Liczba punktów: " + (coordinates.length + 1));
+        setCoordinates((prevCoordinates) => {
+          return [...prevCoordinates, { x, y }];
+        });
       }
-    };
+    }
 
+    // ### Przesuwanie punktów ###
     const handleCanvasMove = (event: { clientX: number; clientY: number; }) => {
       if (selectedPoint !== null) {
         const rect = canvas.getBoundingClientRect();
@@ -139,10 +148,12 @@ const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboa
     };
 
     canvas.addEventListener('click', handleCanvasClick);
+    canvas.addEventListener('contextmenu', handleRightClick);
     canvas.addEventListener('mousemove', handleCanvasMove);
 
     return () => {
       canvas.removeEventListener('click', handleCanvasClick);
+      canvas.removeEventListener('contextmenu', handleRightClick);
       canvas.removeEventListener('mousemove', handleCanvasMove);
     };
 
@@ -156,18 +167,6 @@ const Editor = ({ activeMode, updateActiveMode, currentCurve, setCurveFromKeyboa
     window.addEventListener('keydown', handleKeyDown);
 
     switch (pressedKey) {
-      case 'q':
-      case 'Q':
-        updateActiveMode({ label: "Dodaj punkt", dispatchTime: Date.now() });
-        break;
-      case "W":
-      case 'w':
-        updateActiveMode({ label: "Edytuj punkt", dispatchTime: Date.now() });
-        break;
-      case "E":
-      case 'e':
-        updateActiveMode({ label: "Usuń punkt", dispatchTime: Date.now() });
-        break;
       case "1":
         setCurveFromKeyboard(1);
         break;

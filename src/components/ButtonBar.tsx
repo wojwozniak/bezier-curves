@@ -1,36 +1,11 @@
-import { RiAddLine, RiEditLine, RiDeleteBinLine, RiBrushLine, RiEyeLine, RiFileDownloadLine } from 'react-icons/ri';
+import { RiBrushLine, RiEyeLine, RiFileDownloadLine } from 'react-icons/ri';
 import { State } from '../types/State';
+import Button from '@mui/material/Button';
 
 const ButtonBar = (
   { updateActiveMode }: { updateActiveMode: React.Dispatch<React.SetStateAction<State>> }
 ) => {
   const buttonData = [
-    {
-      label: "Dodaj punkt (Q)",
-      action: () => updateActiveMode({
-        label: "Dodaj punkt",
-        dispatchTime: Date.now()
-      }),
-      icon: <RiAddLine />
-    },
-    {
-      label: "Edytuj punkt (W)",
-      action: () => updateActiveMode({
-        label: "Edytuj punkt",
-        dispatchTime: Date.now()
-      }),
-      className: "yellow",
-      icon: <RiEditLine />
-    },
-    {
-      label: "Usuń punkt (E)",
-      action: () => updateActiveMode({
-        label: "Usuń punkt",
-        dispatchTime: Date.now()
-      }),
-      className: "red",
-      icon: <RiDeleteBinLine />
-    },
     {
       label: "Wyczyść kanwę",
       action: () => updateActiveMode({
@@ -73,9 +48,9 @@ const ButtonBar = (
     <div className="button-row">
       {buttonData.map((button, index) => {
         return (
-          <button key={index} className={`button ${button.className}`} onClick={button.action}>
+          <Button variant="contained" key={index} onClick={button.action}>
             {button.icon} {button.label}
-          </button>
+          </Button>
         );
       })}
     </div>
