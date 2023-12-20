@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import Editor from './Editor'
-import ButtonBar from './ButtonBar'
 import CurveList from './CurveList';
 import { State } from '../types/State';
 
 const defaultMode: State = { label: "Dodaj punkt", dispatchTime: Date.now() };
-const defaultCurves: string[] = ["Główna krzywa", "Krzywa 2"];
+const defaultCurves: string[] = ["Warstwa 1", "Warstwa 2", "Warstwa 3", "Warstwa 4", "Warstwa 5", "Warstwa 6", "Warstwa 7", "Warstwa 8", "Warstwa 9"];
 const defaultCurve: string = "Główna krzywa";
 const defaultCurveFromKeyboard: number = 1;
 
@@ -23,19 +22,16 @@ const Center = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center flex-col gap-10">
+            <div className="flex items-center justify-center flex-col">
                 <Editor activeMode={activeMode}
                     currentCurve={currentCurve}
                     updateActiveMode={updateActiveMode}
                     setCurveFromKeyboard={setCurveFromKeyboard} />
-                <div className='cont'>
-                    <CurveList curves={curves}
-                        dispatchStateUpdate={dispatchStateUpdate}
-                        currentCurve={currentCurve}
-                        setCurrentCurve={setCurrentCurve} />
-                </div>
+                <CurveList curves={curves}
+                    dispatchStateUpdate={dispatchStateUpdate}
+                    currentCurve={currentCurve}
+                    setCurrentCurve={setCurrentCurve} />
             </div>
-            <ButtonBar updateActiveMode={updateActiveMode} />
         </>
     )
 }

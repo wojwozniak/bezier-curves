@@ -7,14 +7,16 @@ import { drawBezierCurve } from './../functions/drawBezierCurve';
 import { State } from '../types/State';
 import { Coordinates } from '../types/Coordinates';
 import { Curve } from '../types/Curve';
+import ButtonBar from './ButtonBar';
 
 interface EditorProps {
   activeMode: State;
   currentCurve: string;
   setCurveFromKeyboard: React.Dispatch<React.SetStateAction<number>>;
+  updateActiveMode: React.Dispatch<React.SetStateAction<State>>;
 }
 
-const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps) => {
+const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMode }: EditorProps) => {
   const canvasRef = useRef(null);
   const [coordinates, setCoordinates] = useState<Coordinates[]>([]);
   const [curveStore, setCurveStore] = useState<Curve[]>([{ label: currentCurve, coordinates: coordinates }]);
@@ -210,8 +212,8 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
   return (
     <div className="flex items-center justify-center flex-col">
       <canvas ref={canvasRef} className="border-2 border-gray-300 bg-white mb-4" />
-      <p className='my-2'>Ostatnia akcja: {screen}</p>
-      <p className='my-2'>{activeMode.label}</p>
+      <ButtonBar updateActiveMode={updateActiveMode} />
+      <p className='mt-5'>{screen}</p>
     </div>
   );
 };
