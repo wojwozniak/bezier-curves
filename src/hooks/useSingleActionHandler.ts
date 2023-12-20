@@ -28,6 +28,7 @@ const useSingleActionHandler = (
         if (activeMode.label === "Wyczyść") {
             setCoordinates([]);
             setScreen("Wyczyszczono warstwę.");
+            return;
         } else if (activeMode.label === "Eksportuj SVG") {
             exportSVG(canvasRef, coordinates);
             setScreen("Eksportowano SVG.");
