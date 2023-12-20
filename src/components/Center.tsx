@@ -23,7 +23,7 @@ const Center = () => {
 
     return (
         <>
-            <div className="screen">
+            <div className="flex items-center justify-center flex-col gap-10">
                 <Editor activeMode={activeMode}
                     currentCurve={currentCurve}
                     updateActiveMode={updateActiveMode}

@@ -205,10 +205,10 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
   useSingleActionHandler(activeMode, setCoordinates, setScreen, canvasRef);
 
   return (
-    <div className="canvasContainer">
-      <canvas ref={canvasRef} className="canvas" />
-      <p>Ostatnia akcja: {screen}</p>
-      <p>Aktywny tryb: {activeMode.label}</p>
+    <div className="flex items-center justify-center flex-col">
+      <canvas ref={canvasRef} className="border-2 border-gray-300 bg-white mb-4" />
+      <p className='my-2'>Ostatnia akcja: {screen}</p>
+      <p className='my-2'>Aktywny tryb: {activeMode.label}</p>
     </div>
   );
 };

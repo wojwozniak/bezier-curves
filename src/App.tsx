@@ -7,7 +7,7 @@ import Center from './components/Center';
 const App: React.FC = () => {
 
   return (
-    <div className="app-container bg-bg">
+    <div className="flex flex-col items-center justify-between min-h-screen p-5 bg-bg">
       <Header />
       <Center />
       <Footer />

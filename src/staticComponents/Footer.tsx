@@ -1,6 +1,6 @@
 const Footer:React.FC = () => {
     return (
-        <div className="footer">
+        <div className="mt-auto text-center text-gray-700">
             <p>
                 Projekt na konkurs 2 z AN(L) - program do tworzenia czcionek
             </p>
