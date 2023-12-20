@@ -16,23 +16,37 @@ export const drawBezierCurve = (
         context.beginPath();
         context.moveTo(coordinates[0].x, coordinates[0].y);
 
-        /* #TODO: Narysuj bezier customową funkcją */
-        for (let i = 1; i < coordinates.length - 2; i++) {
-            const xc = (coordinates[i].x + coordinates[i + 1].x) / 2;
-            const yc = (coordinates[i].y + coordinates[i + 1].y) / 2;
-            context.quadraticCurveTo(coordinates[i].x, coordinates[i].y, xc, yc);
-        }
+        for (let t = 0; t <= 1; t += 0.01) { // 't' od 0 do 1 z krokiem 0.01
+            let x = 0;
+            let y = 0;
 
-        // Ostatni bezier
-        context.quadraticCurveTo(
-            coordinates[coordinates.length - 2].x,
-            coordinates[coordinates.length - 2].y,
-            coordinates[coordinates.length - 1].x,
-            coordinates[coordinates.length - 1].y
-        );
+            const n = coordinates.length - 1; // Stopień krzywej
+            for (let i = 0; i <= n; i++) {
+                // Obliczanie współczynników bazowych Bernstein'a
+                const binomialCoefficient = binomial(n, i);
+                const bernsteinPolynomial = binomialCoefficient * Math.pow(t, i) * Math.pow(1 - t, n - i);
+
+                x += bernsteinPolynomial * coordinates[i].x;
+                y += bernsteinPolynomial * coordinates[i].y;
+            }
+
+            context.lineTo(x, y);
+        }
 
         context.strokeStyle = isMain ? '#000' : '#aaa';
         context.lineWidth = isMain ? 5 : 1;
         context.stroke();
     }
+}
+
+// Dwumian Newtona
+function binomial(n: number, k: number) {
+    let coeff = 1;
+    for (let i = n - k; i < n; i++) {
+        coeff *= (i + 1);
+    }
+    for (let i = 1; i <= k; i++) {
+        coeff /= i;
+    }
+    return coeff;
 }
