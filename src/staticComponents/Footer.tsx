@@ -7,9 +7,6 @@ const Footer:React.FC = () => {
             <p>
                 Autor: Wojciech Woźniak, grudzień 2023
             </p>
-            <p>
-                Skróty klawiszowe: Q,W,E - dodaj, edytuj, usuń punkt; 1-9 - wybierz warstwę (jeśli istnieje)
-            </p>
         </div>
     )
 }

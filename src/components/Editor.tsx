@@ -60,13 +60,13 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
 
     // ### Rysowanie krzywej ###
     const draw = () => {
-      if (!(activeMode.label === "Podgląd"
+      if (!(activeMode.label === "Podgląd włączony"
         || activeMode.label === "Eksportuj PNG"
         || activeMode.label === "Eksportuj SVG"
       )) drawPoints(coordinates, context);
       drawBezierCurve(coordinates, context, true);
 
-      let backgroundArgument = activeMode.label === "Podgląd" || activeMode.label === "Eksportuj PNG" || activeMode.label === "Eksportuj SVG" ? true : false;
+      let backgroundArgument = activeMode.label === "Podgląd włączony" || activeMode.label === "Eksportuj PNG" || activeMode.label === "Eksportuj SVG" ? true : false;
       const backgroundCurves = curveStore.filter(curve => curve.label !== currentCurve);
       backgroundCurves.forEach(curve => {
         drawBezierCurve(curve.coordinates, context, backgroundArgument);

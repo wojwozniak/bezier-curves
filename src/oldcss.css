@@ -27,52 +27,11 @@ body {
     margin-bottom: 20px;
 }
 
-.button-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    width: fit-content;
-}
-
-.button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    background-color: #4285f4;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    flex: 0 0 calc(33.333% - 10px);
-    box-sizing: border-box;
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.row2 {
-    flex: 0 0 calc(25% - 10px);
-}
-
 
 .footer {
     margin-top: auto;
     text-align: center;
     color: #777;
-}
-
-.green {
-    background-color: #34a853;
-}
-
-.red {
-    background-color: #ea4335;
-}
-
-.yellow {
-    background-color: #fbbc05;
 }
 
 .canvas {
