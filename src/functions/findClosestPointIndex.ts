@@ -17,7 +17,7 @@ export const findClosestPointIndex = (
 
     coords.forEach((point, index) => {
         const distance = Math.sqrt((point.x - x) ** 2 + (point.y - y) ** 2);
-        if (distance < 7 && distance < minDistance) {
+        if (distance < 10 && distance < minDistance) {
             minDistance = distance;
             closestIndex = index;
         }
