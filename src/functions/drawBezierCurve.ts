@@ -50,3 +50,30 @@ function binomial(n: number, k: number) {
     }
     return coeff;
 }
+
+/**
+ * Funkcja generująca dane ścieżki SVG
+ * @param {Coordinates[]} coordinates - współrzędne  
+ * @returns {string} - dane ścieżki SVG {d: ...
+ */
+export const generateBezierPathData = (coordinates: Coordinates[]): string => {
+    let pathData = `M ${coordinates[0].x},${coordinates[0].y}`;
+
+    for (let t = 0; t <= 1; t += 0.01) {
+        let x = 0;
+        let y = 0;
+        const n = coordinates.length - 1;
+
+        for (let i = 0; i <= n; i++) {
+            const binomialCoefficient = binomial(n, i);
+            const bernsteinPolynomial = binomialCoefficient * Math.pow(t, i) * Math.pow(1 - t, n - i);
+
+            x += bernsteinPolynomial * coordinates[i].x;
+            y += bernsteinPolynomial * coordinates[i].y;
+        }
+
+        pathData += ` L ${x},${y}`;
+    }
+
+    return pathData;
+}
