@@ -66,7 +66,10 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
       )) drawPoints(coordinates, context);
       drawBezierCurve(coordinates, context, true);
 
-      let backgroundArgument = activeMode.label === "Podgląd włączony" || activeMode.label === "Eksportuj PNG" || activeMode.label === "Eksportuj SVG" ? true : false;
+      let backgroundArgument = activeMode.label === "Podgląd włączony"
+        || activeMode.label === "Eksportuj PNG"
+        || activeMode.label === "Eksportuj SVG"
+        ? true : false;
       const backgroundCurves = curveStore.filter(curve => curve.label !== currentCurve);
       backgroundCurves.forEach(curve => {
         drawBezierCurve(curve.coordinates, context, backgroundArgument);
@@ -81,7 +84,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard }: EditorProps)
         setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
         return;
       }
-      if(selectedPoint !== null) {
+      if (selectedPoint !== null) {
         setScreen("Zakończ przesuwanie punktu zanim spróbujesz usunąć.");
         return;
       }
