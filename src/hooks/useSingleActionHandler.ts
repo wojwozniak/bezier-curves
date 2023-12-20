@@ -28,7 +28,6 @@ const useSingleActionHandler = (
         if (activeMode.label === "Wyczyść") {
             setCoordinates([]);
             setScreen("Wyczyszczono warstwę.");
-            return;
         } else if (activeMode.label === "Eksportuj SVG") {
             exportSVG(canvasRef, coordinates);
             setScreen("Eksportowano SVG.");
@@ -36,7 +35,10 @@ const useSingleActionHandler = (
             exportPNG(canvasRef);
             setScreen("Eksportowano PNG.");
         }
-        setActiveMode({ label: "Dodaj punkt", dispatchTime: Date.now() });
+        if (activeMode.label === "Wyczyść" || activeMode.label === "Eksportuj SVG" || activeMode.label == "Eksportuj PNG") {
+            setActiveMode({ label: "Dodaj punkt", dispatchTime: Date.now() });
+
+        }
     }, [activeMode]);
 }
 
@@ -76,7 +78,7 @@ const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, coordinates: C
     const preface = '<?xml version="1.0" standalone="no"?>\r\n';
     const svgBlob = new Blob([preface, svgString], { type: 'image/svg+xml;charset=utf-8' });
     const svgUrl = URL.createObjectURL(svgBlob);
-    
+
     const downloadLink = document.createElement('a');
     downloadLink.href = svgUrl;
     downloadLink.download = 'canvas.svg';

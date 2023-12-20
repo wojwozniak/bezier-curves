@@ -81,7 +81,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     // ### Usuwanie punktu ###
     const handleRightClick = (event: MouseEvent) => {
       event.preventDefault();
-      if (activeMode.label === "Podgląd") {
+      if (activeMode.label === "Podgląd włączony") {
         setScreen("Próba edycji podczas trybu podglądu - wyłącz tryb podglądu by edytować.");
         return;
       }
