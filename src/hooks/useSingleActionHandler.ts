@@ -22,7 +22,7 @@ const useSingleActionHandler = (
         }
         if (activeMode.label === "Wyczyść") {
             setCoordinates([]);
-            setScreen("Wyczyszczono kanwę.");
+            setScreen("Wyczyszczono warstwę.");
         } else if (activeMode.label === "Eksportuj SVG") {
             const canvas = canvasRef.current;
             const width = canvas.width.toString();

@@ -29,8 +29,15 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
 
   return (
     <div className="button-row flex space-x-2">
-      <Button variant="contained" className='flex !bg-red-500 background-red gap-1' onClick={() => updateActiveMode({ label: "Wyczyść", dispatchTime: Date.now() })}>
-        <RiBrushLine /> Wyczyść kanwę
+      <FormControlLabel
+        control={<Switch checked={previewChecked} onChange={handlePreviewChange} />}
+        label={"Podgląd"}
+        style={{flexDirection: "row-reverse", marginRight: "0"}}
+      />
+      <Button variant="contained"
+        className='flex !bg-red-500 background-red gap-1'
+        onClick={() => updateActiveMode({ label: "Wyczyść", dispatchTime: Date.now() })}>
+        <RiBrushLine /> Wyczyść warstwę
       </Button>
 
       <Button variant="contained" className='flex !bg-green-500 gap-1' onClick={handleExportMenuClick}>
@@ -48,11 +55,6 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
           Eksportuj SVG
         </MenuItem>
       </Menu>
-
-      <FormControlLabel
-        control={<Switch checked={previewChecked} onChange={handlePreviewChange} />}
-        label={"Podgląd"}
-      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
+import { List, ListItem, ListItemText, TextField, Box, Button } from '@mui/material';
 
 interface CurveListProps {
     curves: string[];
@@ -7,9 +8,9 @@ interface CurveListProps {
     setCurrentCurve: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CurveList = ({ curves, dispatchStateUpdate, currentCurve, setCurrentCurve }: CurveListProps): ReactNode => {
-    const [newCurve, setNewCurve] = useState<string>('');
-    const [isListVisible, setListVisibility] = useState<boolean>(false);
+const CurveList = ({ curves, dispatchStateUpdate, currentCurve, setCurrentCurve }: CurveListProps) => {
+    const [newCurve, setNewCurve] = useState('');
+    const [isListVisible, setListVisibility] = useState(true);
 
     const handleAddCurve = () => {
         if (newCurve.trim() !== '') {
@@ -18,53 +19,54 @@ const CurveList = ({ curves, dispatchStateUpdate, currentCurve, setCurrentCurve 
         }
     };
 
-    const toggleListVisibility = () => {
-        setListVisibility(!isListVisible);
+    const handleChangeCurve = (curve: string) => {
+        setCurrentCurve(curve);
     };
 
-    const handleChangeCurve = (event: React.MouseEvent<HTMLAnchorElement>) => {
-        const target = event.target as HTMLAnchorElement;
+    return (
+        <Box sx={{ position: 'absolute', top: 0, right: 0, width: 300 }}>
+            <Button 
+                variant="contained" 
+                onClick={() => setListVisibility(!isListVisible)}
+                sx={{ position: 'absolute', top: 8, right: 8 }}>
+                {isListVisible ? 'Ukryj warstwy' : 'Pokaż warstwy'}
+            </Button>
 
-        if (target) {
-            setCurrentCurve(target.innerText);
-        }
-    };
-
-    if (isListVisible) {
-        return (
-            <div className="curve-list-container">
-                <div className={`list-container ${isListVisible ? 'visible' : 'hidden'}`}>
-                    <h3>Lista warstw</h3>
-                    <ul className="curve-list">
-                        {curves.map((curve, index) => (
-                            <li key={index} className={curve === currentCurve ? "active-curve" : ""}>
-                                <a onClick={handleChangeCurve}>{curve}</a>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="add-curve-container">
-                        <input
-                            type="text"
-                            placeholder="Nowa warstwa"
-                            value={newCurve}
-                            onChange={(e) => setNewCurve(e.target.value)}
-                        />
-                        <button onClick={handleAddCurve}>Dodaj warstwę</button>
-                    </div>
-                </div>
-                <button className="button" onClick={toggleListVisibility}>
-                    {isListVisible ? 'Ukryj listę wartsw' : 'Pokaż listę warstw'}
-                </button>
-                <p>Aktywna warstwa jest zaznaczona na złoto</p>
-            </div>
-        );
-    } else {
-        return (
-            <button className="button" onClick={toggleListVisibility}>
-                {isListVisible ? 'Ukryj listę warstw' : 'Pokaż listę warstw'}
-            </button>
-        );
-    }
+            {isListVisible && (
+                <Box sx={{ pt: 6, bgcolor: 'background.paper', borderRadius: 1 }}>
+                    <Box sx={{ maxHeight: 300, overflow: 'auto' }}>
+                        <List>
+                            {curves.map((curve, index) => (
+                                <ListItem
+                                    key={index}
+                                    button
+                                    selected={curve === currentCurve}
+                                    onClick={() => handleChangeCurve(curve)}
+                                >
+                                    <ListItemText primary={curve} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        placeholder="Nowa warstwa"
+                        value={newCurve}
+                        onChange={(e) => setNewCurve(e.target.value)}
+                    />
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleAddCurve} 
+                        sx={{ mt: 1 }}>
+                        Dodaj nową warstwę
+                    </Button>
+                </Box>
+            )}
+        </Box>
+    );
 };
 
 export default CurveList;
