@@ -16,13 +16,12 @@ export const drawBezierCurve = (
         context.beginPath();
         context.moveTo(coordinates[0].x, coordinates[0].y);
 
-        for (let t = 0; t <= 1; t += 0.01) { // 't' od 0 do 1 z krokiem 0.01
+        for (let t = 0; t <= 1; t += 0.001) {
             let x = 0;
             let y = 0;
 
-            const n = coordinates.length - 1; // Stopień krzywej
+            const n = coordinates.length - 1;
             for (let i = 0; i <= n; i++) {
-                // Obliczanie współczynników bazowych Bernstein'a
                 const binomialCoefficient = binomial(n, i);
                 const bernsteinPolynomial = binomialCoefficient * Math.pow(t, i) * Math.pow(1 - t, n - i);
 
