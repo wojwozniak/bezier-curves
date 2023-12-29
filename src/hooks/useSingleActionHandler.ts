@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { State } from '../types/State';
 import { Coordinates } from '../types/Coordinates';
 import { generateBezierPathData } from '@/functions/drawBezierCurve';
+import { Curve } from '@/types/Curve';
 
 /**
  * Customowy hook, który obsługuje pojedyncze akcje aplikacji (wyczyszczenie kanwy, eksport SVG, eksport PNG).
@@ -11,15 +12,16 @@ import { generateBezierPathData } from '@/functions/drawBezierCurve';
  * @param setCoordinates - funkcja ustawiająca współrzędne
  * @param setScreen - funkcja ustawiająca komunikat na ekranie
  * @param canvasRef - referencja do elementu canvas
+ * @param {Curve[]} curveStore - tablica zawierająca współrzędne punktów krzywej Beziera
  * @returns {void}
  */
 const useSingleActionHandler = (
     activeMode: State,
     setActiveMode: React.Dispatch<React.SetStateAction<State>>,
-    coordinates: Coordinates[],
     setCoordinates: React.Dispatch<React.SetStateAction<Coordinates[]>>,
     setScreen: React.Dispatch<React.SetStateAction<string>>,
-    canvasRef: React.RefObject<HTMLCanvasElement>
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+    curveStore: Curve[],
 ): void => {
     useEffect(() => {
         if (canvasRef.current === null) {
@@ -29,7 +31,7 @@ const useSingleActionHandler = (
             setCoordinates([]);
             setScreen("Wyczyszczono warstwę.");
         } else if (activeMode.label === "Eksportuj SVG") {
-            exportSVG(canvasRef, coordinates);
+            exportSVG(canvasRef, curveStore);
             setScreen("Eksportowano SVG.");
         } else if (activeMode.label == "Eksportuj PNG") {
             exportPNG(canvasRef);
@@ -55,8 +57,8 @@ const exportPNG = (canvasRef: React.RefObject<HTMLCanvasElement>): void => {
     document.body.removeChild(downloadLink);
 }
 
-const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, coordinates: Coordinates[]): void => {
-    if (!canvasRef.current || coordinates.length < 2) return;
+const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, curveStore: Curve[]): void => {
+    if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const width = canvas.width;
@@ -66,12 +68,14 @@ const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, coordinates: C
     svg.setAttribute('height', height.toString());
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    const pathData = generateBezierPathData(coordinates);
-    path.setAttribute('d', pathData);
-    path.setAttribute('stroke', 'black');
-    path.setAttribute('fill', 'none');
-    svg.appendChild(path);
+    curveStore.forEach((curve) => {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); // Create a new path for each curve
+        const pathData = generateBezierPathData(curve.coordinates);
+        path.setAttribute('d', pathData);
+        path.setAttribute('stroke', 'black');
+        path.setAttribute('fill', 'none');
+        svg.appendChild(path);
+    });
 
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svg);

@@ -208,7 +208,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     }
   }, [pressedKey]);
 
-  useSingleActionHandler(activeMode, updateActiveMode, coordinates, setCoordinates, setScreen, canvasRef);
+  useSingleActionHandler(activeMode, updateActiveMode, setCoordinates, setScreen, canvasRef, curveStore);
 
   return (
     <div className="flex items-center justify-center flex-col">
