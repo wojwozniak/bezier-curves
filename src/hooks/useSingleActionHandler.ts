@@ -74,6 +74,7 @@ const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, curveStore: Cu
         path.setAttribute('d', pathData);
         path.setAttribute('stroke', 'black');
         path.setAttribute('fill', 'none');
+        path.setAttribute('stroke-width', '5');
         svg.appendChild(path);
     });
 
