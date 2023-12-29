@@ -56,9 +56,10 @@ function binomial(n: number, k: number) {
  * @returns {string} - dane ścieżki SVG {d: ...
  */
 export const generateBezierPathData = (coordinates: Coordinates[]): string => {
+    if (coordinates.length < 2) return `M 0,0 L 0,0`;
     let pathData = `M ${coordinates[0].x},${coordinates[0].y}`;
 
-    for (let t = 0; t <= 1; t += 0.01) {
+    for (let t = 0; t <= 1; t += 0.001) {
         let x = 0;
         let y = 0;
         const n = coordinates.length - 1;
