@@ -113,7 +113,7 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
         return;
       }
 
-      if (selectedPoint) {
+      if (selectedPoint !== null) {
         setSelectedPoint(null);
         setScreen("Zakończono przesuwanie punktu.");
         return;
