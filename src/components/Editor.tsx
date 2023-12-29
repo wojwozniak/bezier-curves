@@ -59,6 +59,22 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
       setOldCurve(currentCurve);
     }
     if (oldCurve !== currentCurve) handleLayerChange();
+    else {
+      const curve = curveStore.find(curve => curve.label === oldCurve);
+      if (curve) {
+        curve.coordinates = coordinates;
+        setCurveStore(prevCurveStore => {
+          const newCurveStore = [...prevCurveStore];
+          newCurveStore[newCurveStore.indexOf(curve)] = curve;
+          return newCurveStore;
+        });
+      } else {
+        setCurveStore(prevCurveStore => [...prevCurveStore, { label: oldCurve, coordinates: coordinates }]);
+      }
+    }
+
+
+
 
     // ### Rysowanie krzywej ###
     const draw = () => {
