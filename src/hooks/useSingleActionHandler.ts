@@ -69,7 +69,7 @@ const exportSVG = (canvasRef: React.RefObject<HTMLCanvasElement>, curveStore: Cu
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
     curveStore.forEach((curve) => {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); // Create a new path for each curve
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         const pathData = generateBezierPathData(curve.coordinates);
         path.setAttribute('d', pathData);
         path.setAttribute('stroke', 'black');
