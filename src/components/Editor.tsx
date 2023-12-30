@@ -32,8 +32,8 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
     const context = canvas.getContext('2d')!;
 
     let shouldDrawNet = false;
-    const netGettingDisabled = activeMode.label === "Siatka podglądu wyłączona";
-    const netGettingEnabled = activeMode.label === "Siatka podglądu włączona";
+    const netGettingDisabled = activeMode.label === "Siatka pomocnicza wyłączona";
+    const netGettingEnabled = activeMode.label === "Siatka pomocnicza włączona";
     if (netGettingDisabled) {
       shouldDrawNet = false;
       setRenderNet(false);

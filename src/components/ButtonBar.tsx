@@ -23,7 +23,7 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
   const handleNetChange = () => {
     setNetChecked(!netChecked);
     updateActiveMode({
-      label: netChecked ? "Siatka podglądu wyłączona" : "Siatka podglądu włączona",
+      label: netChecked ? "Siatka pomocnicza wyłączona" : "Siatka pomocnicza włączona",
       dispatchTime: Date.now()
     });
   }
@@ -45,7 +45,7 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
       />
       <FormControlLabel
         control={<Switch checked={netChecked} onChange={handleNetChange} />}
-        label={"Siatka podglądu"}
+        label={"Siatka pomocnicza"}
         style={{ flexDirection: "row-reverse", marginRight: "0" }}
       />
       <Button variant="contained"
