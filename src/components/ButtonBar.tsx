@@ -10,6 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<React.SetStateAction<State>> }) => {
   const [exportMenuAnchorEl, setExportMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [previewChecked, setPreviewChecked] = useState(false);
+  const [netChecked, setNetChecked] = useState(false);
 
   const handlePreviewChange = () => {
     setPreviewChecked(!previewChecked);
@@ -18,6 +19,14 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
       dispatchTime: Date.now()
     });
   };
+
+  const handleNetChange = () => {
+    setNetChecked(!netChecked);
+    updateActiveMode({
+      label: netChecked ? "Siatka podglądu wyłączona" : "Siatka podglądu włączona",
+      dispatchTime: Date.now()
+    });
+  }
 
   const handleExportMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setExportMenuAnchorEl(event.currentTarget);
@@ -32,7 +41,12 @@ const ButtonBar = ({ updateActiveMode }: { updateActiveMode: React.Dispatch<Reac
       <FormControlLabel
         control={<Switch checked={previewChecked} onChange={handlePreviewChange} />}
         label={"Podgląd"}
-        style={{flexDirection: "row-reverse", marginRight: "0"}}
+        style={{ flexDirection: "row-reverse", marginRight: "0" }}
+      />
+      <FormControlLabel
+        control={<Switch checked={netChecked} onChange={handleNetChange} />}
+        label={"Siatka podglądu"}
+        style={{ flexDirection: "row-reverse", marginRight: "0" }}
       />
       <Button variant="contained"
         className='flex !bg-red-500 background-red gap-1'

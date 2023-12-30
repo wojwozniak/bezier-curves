@@ -25,8 +25,8 @@ const CurveList = ({ curves, dispatchStateUpdate, currentCurve, setCurrentCurve 
 
     return (
         <Box sx={{ position: 'absolute', top: 0, right: 0, width: 300 }}>
-            <Button 
-                variant="contained" 
+            <Button
+                variant="contained"
                 onClick={() => setListVisibility(!isListVisible)}
                 sx={{ position: 'absolute', top: 8, right: 8 }}>
                 {isListVisible ? 'Ukryj warstwy' : 'Pokaż warstwy'}
@@ -56,10 +56,10 @@ const CurveList = ({ curves, dispatchStateUpdate, currentCurve, setCurrentCurve 
                         value={newCurve}
                         onChange={(e) => setNewCurve(e.target.value)}
                     />
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={handleAddCurve} 
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleAddCurve}
                         sx={{ mt: 1 }}>
                         Dodaj nową warstwę
                     </Button>

@@ -25,12 +25,32 @@ const Editor = ({ activeMode, currentCurve, setCurveFromKeyboard, updateActiveMo
   const [screen, setScreen] = useState<string>("Rozpocznij edycję - dodaj punkt na kanwę!");
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
   const [pressedKey, setPressedKey] = useState<string | null>(null);
+  const [renderNet, setRenderNet] = useState<boolean>(false);
 
   useEffect(() => {
-    // ### Inicjalizacja canvasa ###
     const canvas = canvasRef.current! as HTMLCanvasElement;
     const context = canvas.getContext('2d')!;
-    initCanvas(canvas, context);
+
+    let shouldDrawNet = false;
+    const netGettingDisabled = activeMode.label === "Siatka podglądu wyłączona";
+    const netGettingEnabled = activeMode.label === "Siatka podglądu włączona";
+    if (netGettingDisabled) {
+      shouldDrawNet = false;
+      setRenderNet(false);
+    }
+    else if (netGettingEnabled || renderNet) {
+      shouldDrawNet = true;
+      if (netGettingEnabled) {
+        setRenderNet(true);
+      }
+    }
+
+    const shouldInitNet = !(activeMode.label === "Podgląd włączony"
+      || activeMode.label === "Eksportuj PNG"
+      || activeMode.label === "Eksportuj SVG") && shouldDrawNet;
+
+    initCanvas(canvas, context, shouldInitNet);
+
 
     // ### Aktualizacja - zmiana warstwy ###
     const handleLayerChange = () => {
