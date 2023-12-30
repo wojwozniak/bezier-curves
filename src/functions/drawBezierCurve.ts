@@ -32,7 +32,7 @@ export const drawBezierCurve = (
             context.lineTo(x, y);
         }
 
-        context.strokeStyle = isMain ? '#000' : '#aaa';
+        context.strokeStyle = '#000';
         context.lineWidth = isMain ? 5 : 1;
         context.stroke();
     }

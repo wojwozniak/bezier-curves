@@ -41,6 +41,7 @@ const InstructionsModal = () => {
                         <li>Kliknij na punkt lewym przyciskiem myszy by go przesunąć - pierwsze kliknięcie zaznacza punkt, drugie go puszcza</li>
                         <li>Skorzystaj z przycisków na dole by wyczyścić kanwę lub wyeksportować plik w wybranym formacie</li>
                         <li>Tryb podglądu pokazuje jak będzie wyglądał wyeksportowany plik</li>
+                        <li>Tryb siatki pomocniczej renderuje siatkę w odległościach co 1/4, 1/5, 1/7 ekranu</li>
                         <li>Aplikacja obsługuje wiele warstw - menu w prawym górnym rogu</li>
                         <li>Przyciski 1,2,3....,9 to skróty klawiszowe do warstw 1-9</li>
                     </Typography>
